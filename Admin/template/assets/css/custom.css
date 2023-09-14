@@ -1,0 +1,7 @@
+.custombg {
+    background: url("../images/auth/loginBg.jpg") !important;
+    /* background-size: cover;  */
+}
+.form-control:focus{
+color: white;
+}
