@@ -38,10 +38,11 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` $category_filte
                 <!-- Category Filter Form -->
                 <form method="post" action="" class="category-filter-form">
             <div class="category-filter" style="
-    display: flex;
-    width: 436px;
+display: flex;
+    width: 562px;
     justify-content: space-between;
     align-items: center;
+    font-size: medium;
 ">
                 <label for="category">Filter by Category:</label>
                 <select id="category" name="category">
@@ -66,7 +67,7 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` $category_filte
                     <?php
                     if (mysqli_num_rows($select_products) > 0) {
                         while ($fetch_product = mysqli_fetch_assoc($select_products)) {
-                            $discount = ($fetch_product['real_price'] - $fetch_product['price'] ) / $fetch_product['real_price'] *100;
+                            $discount = $fetch_product['real_price'] ;
                             $discount_integer = (int) round($discount);
                     ?>
 
@@ -74,7 +75,7 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` $category_filte
                                 <div class="col-lg-3 col-md-3">
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="data:image/jpeg;base64,<?php echo base64_encode($fetch_product['image']); ?>">
-                                        <div class="label sale"><?php echo $discount_integer?>% off </div>
+                                        <div class="label sale"><?php echo $discount_integer ?>% off </div>
                                          <?php
                                             
                                             if ($fetch_product['status'] == 2) {
@@ -92,7 +93,11 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` $category_filte
                                                 <li><a href="data:image/jpeg;base64,<?php echo base64_encode($fetch_product['image']); ?>" class="image-popup"><span
                                                             class="arrow_expand"></span></a></li>
 
-                                               
+                                                            <li>
+                                                <button type="submit" class="cart_buton" value="add to cart" name="add_to_wishlist">
+                                                    <span class="icon_heart_alt"></span>
+                                                </button>
+                                            </li>
                                                 <?php
                                             
                                             if ($fetch_product['status'] == 2) {
@@ -101,11 +106,7 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` $category_filte
                                         
                                             } else {
                                                 echo '
-                                                <li>
-                                                <button type="submit" class="cart_buton" value="add to cart" name="add_to_wishlist">
-                                                    <span class="icon_heart_alt"></span>
-                                                </button>
-                                            </li>
+
                                                 <li> <button type="submit" class="cart_buton" value="add to cart" name="add_to_cart">
                                                 <span class="icon_bag_alt"></span>
                                             </button></li>';
@@ -119,8 +120,14 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` $category_filte
                                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
                                             <input type="hidden" name="product_image" value="data:image/jpeg;base64,<?php echo base64_encode($fetch_product['image']); ?>">
+                                            <input type="hidden" name="product_status" value="<?php echo $fetch_product['status']; ?>">
+
                                             <h6><?php echo $fetch_product['name']; ?></h6>
-                                            <div class="product__price" style="font-size: medium;">Rs<?php echo $fetch_product['price']; ?>/-</div>
+                                            <?php 
+                                            $ss =($fetch_product['real_price'] / 100) * $fetch_product['price'];
+                                            
+                                            ?>
+                                            <div class="product__price" style="font-size: medium;">Rs <?php echo $fetch_product['price'] - $ss ?>/-</div>
                                         </div>
                                     </div>
                                 </div>

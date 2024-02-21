@@ -100,8 +100,8 @@ if (isset($_POST['update_product'])) {
                                 <input type="number" class="form-control" id="product_price" name="product_price" value="<?php echo isset($product['price']) ? $product['price'] : ''; ?>" placeholder="Price" required>
                             </div>
                             <div class="form-group">
-                                <label for="real_price">Real Price</label>
-                                <input type="number" class="form-control" id="real_price" name="real_price" value="<?php echo isset($product['real_price']) ? $product['real_price'] : ''; ?>" placeholder="Real Price" required>
+                                <label for="real_price">Discount</label>
+                                <input type="number" class="form-control" id="real_price" name="real_price" value="<?php echo isset($product['real_price']) ? $product['real_price'] : ''; ?>" min="0" max="100" placeholder="Enter Discount Percentage" required>
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Category</label>

@@ -119,8 +119,8 @@ if (isset($_GET['delete'])) {
                                 <input type="number" class="form-control" id="product_price" name="product_price" placeholder="Price" required>
                             </div>
                             <div class="form-group">
-                                <label for="real_price">Real Price</label>
-                                <input type="number" class="form-control" id="real_price" name="real_price" placeholder="Real Price" required>
+                                <label for="real_price">Discount</label>
+                                <input type="number" class="form-control" id="real_price" name="real_price" placeholder="Enter Discount Percentage" max="100" min="0" required>
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Category</label>
@@ -161,7 +161,7 @@ if (isset($_GET['delete'])) {
                         <tr>
                             <th>Product Name</th>
                             <th>Price</th>
-                            <th>Real Price</th>
+                            <th>Discount </th>
                             <th>Category</th>
                             <th>Status</th>
                             <th>Image</th>
@@ -175,7 +175,7 @@ foreach ($products as $product) {
     echo '<tr>';
     echo '<td>' . $product['name'] . '</td>';
     echo '<td>' . $product['price'] . '</td>';
-    echo '<td>' . $product['real_price'] . '</td>';
+    echo '<td>' . $product['real_price'] . '%</td>';
     echo '<td>' . $product['category_name'] . '</td>'; // Display category name
     echo '<td>';
     

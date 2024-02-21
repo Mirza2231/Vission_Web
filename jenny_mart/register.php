@@ -15,7 +15,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
-    } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
+    } elseif(!preg_match('/^(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/', trim($_POST["username"]))){
         $username_err = "Username can only contain letters, numbers, and underscores.";
     } else{
         // Prepare a select statement
@@ -201,14 +201,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </span>
                 </div>
                 <div class="input_div">
-                   <input type="password" name="password" placeholder="Password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                   <input type="password" name="password" placeholder="Password" id="myInput" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
                  <!-- <span class="invalid-feedback"><?php echo $password_err; ?></span> -->
                     <span class="invalid-feedback" style="font-size:100%">
                         <?php echo $password_err; ?>
                     </span>
+
                 </div>
                 <div class="input_div">
-                <input type="password" name="confirm_password" placeholder="Confirm Password"  class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+                <input type="password" name="confirm_password" placeholder="Confirm Password" id="myConfirmInput"  class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                 <span class="invalid-feedback" style="font-size:100%"><?php echo $confirm_password_err; ?></span>
                     </span>
                 </div>
@@ -217,7 +218,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="file" name="userImage" class="form-control <?php echo (!empty($image_err)) ? 'is-invalid' : ''; ?>">
                 <span class="invalid-feedback" style="font-size:100%"><?php echo $image_err; ?></span>
                     </span>
+                    <div style="
+                    
+                    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    font-size: larger;
+                    ">
+
+                        <input type="checkbox" onclick="myFunction()" style="
+                        height: auto;
+    width: 25px;
+    ">Show Password
+                    </div>
                 </div>
+
                 <button type="submit" class="site-btn" name="Submitt" style="margin-bottom:1%">Sign Up</button>
 
                 <p>Already have an account? <a href="login.php">Login here</a>.</p>

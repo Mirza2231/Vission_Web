@@ -20,7 +20,9 @@ if(isset($_POST['subscribe'])){
 ?>
 
 
-
+<!-- Back to top button -->
+<a id="button"></a>
+<i class="arrow_carrot-2up"></i></button>
 <!-- Footer Section Begin -->
 <footer class="footer">
     <div class="container">
@@ -30,7 +32,7 @@ if(isset($_POST['subscribe'])){
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="./index.html"><img src="./asset/img/logo2.png" alt=""></a>
+                        <a href="index.php"><img src="./asset/img/logo2.png" alt=""></a>
                     </div>
                     <p>Humorous material tends to be recalled at higher rates than non-humorous material.
                         It’s also been shown to break down people’s resistance to being influenced by

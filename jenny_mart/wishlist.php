@@ -50,6 +50,7 @@ include '../jenny_mart/_Layout/Layout_header.php';
 
                                         <div class="cart__product__item__title">
                                             <h6><?php echo $fetch_pro['name']; ?></h6>
+                                            <h6><?= ($fetch_pro['status'] == 2 ?'(Out of Stock)': '' )?></h6>
                                         </div>
                                     </td>
                                     <td class="cart__price">Rs <?php echo $fetch_pro['price']; ?>/-</td>
@@ -60,9 +61,12 @@ include '../jenny_mart/_Layout/Layout_header.php';
                                     <input type="hidden" name="product_name" value="<?php echo $fetch_pro['name']; ?>">
                                  <input type="hidden" name="product_price" value="<?php echo $fetch_pro['price']; ?>">
                                  <input type="hidden" name="product_image" value="<?php echo $fetch_pro['image']; ?>">
-                                            <button type="submit" class="site-btn" value="add to cart" name="add_to_cart">
-                                            <span class="">Add to Cart </span>
-                                            </button>
+                                 <input type="hidden" name="product_status" value="<?php echo $fetch_pro['status']; ?>">
+                                 
+                                 
+                                 <button type="submit" class="site-btn" value="add to cart" name="add_to_cart" <?= ($fetch_pro['status'] == 2) ? 'style="opacity:.65;" disabled' : ''; ?>>
+                                 <span>Add to cart</span>
+</button>
     
     
                                             </td>
@@ -106,7 +110,7 @@ include '../jenny_mart/_Layout/Layout_header.php';
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn update__btn">
-                        <td><a href="shop-cart.php?delete_all" onclick="return confirm('are you sure you want to delete all?');" class="btn <?= (mysqli_num_rows($select_cart) > 0)?'':'disabled'; ?>"> <i  class="fa fa-trash-o"></i> Delete All</a></td>
+                        <td><a href="shop-cart.php?delete_all_wish" onclick="return confirm('are you sure you want to delete all?');" class="btn <?= (mysqli_num_rows($select_cart) > 0)?'':'disabled'; ?>"> <i  class="fa fa-trash-o"></i> Delete All</a></td>
     
                         </div>
                     </div>

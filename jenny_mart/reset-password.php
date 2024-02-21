@@ -126,7 +126,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <?php echo $username_err; ?>
                     </span> -->
 
-                    <input type="password" name="new_password" placeholder="New Password" class="form-control <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>">
+                    <input type="password" name="new_password" placeholder="New Password" id="myInput" class="form-control <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>">
                 <span class="invalid-feedback"><?php echo $new_password_err; ?></span>
 
                 </div>
@@ -137,8 +137,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <?php echo $password_err; ?>
                     </span> -->
 
-                    <input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" id="myConfirmInput" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+
+                <div style="
+                    
+                    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    font-size: larger;
+                    ">
+
+                        <input type="checkbox" onclick="myFunction()" style="
+                        height: auto;
+    width: 25px;
+    ">Show Password
+                    </div>
 
                 </div>
                 <div style="

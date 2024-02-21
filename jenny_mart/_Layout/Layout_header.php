@@ -23,17 +23,18 @@ if (isset($_SESSION['id']) && $_SESSION['id'] !== null) {
         if (mysqli_stmt_num_rows($stmt) > 0) {
             mysqli_stmt_bind_result($stmt, $image_data);
             mysqli_stmt_fetch($stmt);
-            
-            // Get image extension and base64-encoded data
-            $image_info = getimagesizefromstring($image_data);
-            if ($image_info !== false) {
-                $image_extension = image_type_to_extension($image_info[2], false);
-            } else {
-                // Handle image data error here
-                // For example, set a default image or display an error message
-                // $image_data = ''; // Set a default image
-                // echo 'Error: Unable to get image data';
-            }
+        
+            // Verify image data
+            if (!empty($image_data)) {
+                $image_info = @getimagesizefromstring($image_data); // Use @ to suppress errors
+                if ($image_info !== false) {
+                    $image_extension = image_type_to_extension($image_info[2], false);
+                } else {
+                    // Handle image data error here (e.g., set a default image)
+                    $image_extension = 'png'; // Set a default image extension
+                    $image_data = ''; // Set a default image
+                }
+            } 
         }
         
         mysqli_stmt_close($stmt);
@@ -153,7 +154,7 @@ if (isset($_SESSION['id']) && $_SESSION['id'] !== null) {
             </a></li>
         </ul>
         <div class="offcanvas__logo">
-            <a href="./index.html"><img src="./asset/img/logo2.png" alt=""></a>
+            <a href="index.php"><img src="./asset/img/logo2.png" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"><div class="slicknav_menu"><a href="#" aria-haspopup="true" role="button" tabindex="0" class="slicknav_btn slicknav_collapsed" style="outline: none;"><span class="slicknav_menutxt">MENU</span><span class="slicknav_icon"><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span><span class="slicknav_icon-bar"></span></span></a><nav class="slicknav_nav slicknav_hidden" aria-hidden="true" role="menu" style="display: none;">
                         <ul>
@@ -165,38 +166,45 @@ if (isset($_SESSION['id']) && $_SESSION['id'] !== null) {
                         </ul>
                     </nav></div></div>
                     <?php
-// Initialize the session
- 
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION['id']) || $_SESSION['id'] === null){
-?>
-        <div class="offcanvas__auth">
-            <a href="./login.php">Login</a>
-            <a href="./register.php">Register</a>
-        </div>
-
-        <?php
-}
-else{
-        
-        ?>
-<li class="dropdown">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width:35px">
-                    <img src="data:image/<?php echo $image_extension; ?>;base64,<?php echo base64_encode($image_data); ?>" class="img-xs rounded-circle" alt="">
-                </a>
-
-          
-          <ul class="dropdown-menu dropdown-menu1">
-            <li><a href="#">Orders</a></li>
-            <li><a href="reset-password.php">Reset Password</a></li>
-            <li><a href="logout.php">Logout</a></li>
-          </ul>
-        </li>
-
+if (!isset($_SESSION['id']) || $_SESSION['id'] === null) {
+    ?>
+    <div class="offcanvas__auth">
+        <a href="./login.php">Login</a>
+        <a href="./register.php">Register</a>
+    </div>
 <?php
-
+} else {
+    if (isset($image_data) && isset($image_extension)) {
+        // If user image data is available, display it
+        ?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width:35px">
+                <img src="data:image/<?php echo $image_extension; ?>;base64,<?php echo base64_encode($image_data); ?>" class="img-xs rounded-circle" alt="">
+            </a>
+            <ul class="dropdown-menu dropdown-menu1">
+                <li><a href="reset-password.php">Reset Password</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </li>
+    <?php
+    } else {
+        // If user image data is not available, display the first letter of their username
+        $firstLetter = substr($_SESSION['username'], 0, 1);
+        ?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width:50px; display:flex; align-items:center">
+                <div class="img-xs rounded-circle" style="background-color: #007BFF; color: #fff; text-align: center; line-height: 30px; width:31px"><?php echo $firstLetter; ?></div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu1">
+                <li><a href="reset-password.php">Reset Password</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </li>
+    <?php
+    }
 }
 ?>
+
 
  <!-- <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a> -->
 
@@ -210,7 +218,7 @@ else{
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="./asset/img/logo2.png" alt=""></a>
+                        <a href="./index.php"><img src="./asset/img/logo2.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-7">
@@ -224,39 +232,47 @@ else{
                 </div>
                 <div class="col-lg-3">
                     <div class="header__right">
-                        <?php 
-                        if(!isset($_SESSION['id']) || $_SESSION['id'] === null){
-                        
-                        ?>
-                        <div class="header__right__auth">
-                            <a href="./login.php">Login</a>
-                            <a href="./register.php">Register</a>
-                        </div>
-
-                        <?php
-                        }else{
-                        ?>
-<!-- <a href="logout.php" >logOut</a> -->
-<!-- <span class="fa fa-user-circle-o"></span> -->
-<li class="dropdown">
-          <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($_SESSION['image']); ?>" alt=""> </a> -->
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width:35px">
-                    <img src="data:image/<?php echo $image_extension; ?>;base64,<?php echo base64_encode($image_data); ?>" class="img-xs rounded-circle" alt="">
-                </a>
-
-          
-          <!-- <span><?php echo $_SESSION['id']?></span> -->
-          <ul class="dropdown-menu dropdown-menu1">
-            <li><a href="#">Orders</a></li>
-            <li><a href="reset-password.php">Reset Password</a></li>
-            <li><a href="logout.php">Logout</a></li>
-          </ul>
-        </li>
-
+                    <?php
+if (!isset($_SESSION['id']) || $_SESSION['id'] === null) {
+    ?>
+    <div class="header__right__auth">
+        <a href="./login.php">Login</a>
+        <a href="./register.php">Register</a>
+    </div>
 <?php
-                        }
-
+} else {
+    if (isset($image_data) && isset($image_extension)) {
+        // If user image data is available, display it
+        ?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width:35px">
+                <img src="data:image/<?php echo $image_extension; ?>;base64,<?php echo base64_encode($image_data); ?>" class="img-xs rounded-circle" alt="">
+            </a>
+            <ul class="dropdown-menu dropdown-menu1">
+                <li><a href="reset-password.php">Reset Password</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </li>
+    <?php
+    } else {
+        // If user image data is not available, display the first letter of their username
+        $firstLetter = substr($_SESSION['username'], 0, 1);
+        ?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="width:50px; display:flex; align-items:center">
+                <div class="img-xs rounded-circle" style="background-color: black; color: #dbdadf; text-align: center; line-height: 30px; width:31px"><?php echo $firstLetter; ?></div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu1">
+                <li><a href="reset-password.php">Reset Password</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </li>
+    <?php
+    }
+}
 ?>
+
+
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
                             <?php

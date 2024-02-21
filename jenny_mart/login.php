@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 display:flex;
                 align-items:center;
                 flex-direction:column;
-                " >
+                ">
                 <div class="input_div">
                     <input type="text" name="username" placeholder="Username"
                         class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>"
@@ -129,10 +129,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
                 <div class="input_div">
                     <input type="password" name="password" placeholder="Password"
-                        class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
+                        class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" id="myInput">
                     <span class="invalid-feedback" style="font-size:100%">
                         <?php echo $password_err; ?>
                     </span>
+                    <div style="
+                    
+                    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    font-size: larger;
+                    ">
+
+                        <input type="checkbox" onclick="myFunction()" style="
+                        height: auto;
+    width: 25px;
+    ">Show Password
+                    </div>
                 </div>
                 <button type="submit" class="site-btn" name="Submitt" style="margin-bottom:1%">Login</button>
                 <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
